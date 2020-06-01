@@ -12,7 +12,8 @@ how_bad_is_it <- function(startdate, state = "Illinois", county = "Champaign",
   for(var in plotvar){
     noncum <- covdat[[var]][2:ndates] - covdat[[var]][1:(ndates - 1)]
     plot(covdat$date[-1], noncum, type = "l", xlab = "Date",
-         ylab = "Daily (noncumulative) count", main = var)
+         ylab = "Daily (noncumulative) count",
+         main = paste0(var, ", ", county, " county, ", state))
   }
   
   return(covdat)
