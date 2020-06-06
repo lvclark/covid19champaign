@@ -8,6 +8,7 @@ how_bad_is_it <- function(startdate, state = "Illinois", county = "Champaign",
   covdat <- COVID19::covid19("USA", level = 3, start = stdt) %>%
     filter(administrative_area_level_2 == state, administrative_area_level_3 == county)
   ndates <- nrow(covdat)
+  if(ndates == 0) return(NULL)
   
   noncum <- covdat[[plotvar]][2:ndates] - covdat[[plotvar]][1:(ndates - 1)]
   p <- ggplot(mapping = aes(x = covdat$date[-1], y = noncum)) +

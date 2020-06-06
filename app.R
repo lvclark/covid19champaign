@@ -2,6 +2,13 @@ library(shiny)
 source("allcounties.R")
 source("how_bad_is_it.R")
 
+# set some default counties
+defcounties <- sapply(allcounties, function(x) x[1])
+defcounties["Illinois"] <- "Champaign"
+defcounties["Maine"] <- "York"
+defcounties["Florida"] <- "Marion"
+defcounties["Massachusetts"] <- "Essex"
+
 ui <- fluidPage(
   titlePanel("COVID-19 confirmed cases by date and county"),
   
@@ -13,7 +20,13 @@ ui <- fluidPage(
       selectInput("county", "County", allcounties[["Illinois"]], "Champaign")
     ),
     mainPanel(plotOutput(outputId = "linegraph"))
-  )
+  ),
+  
+  mainPanel(p("Data obtained from ",
+    a("COVID-19 Data Hub", href = 'https://covid19datahub.io/'),
+    "."),
+    p("View source code on ", a("GitHub", href = "https://github.com/lvclark/covid19champaign"),
+      ". Feel free to modify and distribute with attribution."))
 )
 
 server <- function(input, output, session){
@@ -22,7 +35,8 @@ server <- function(input, output, session){
   
   observe(
     updateSelectInput(session, "county", label = "County",
-                      choices = allcounties[[input$state]])
+                      choices = allcounties[[input$state]],
+                      selected = defcounties[input$state])
   )
   
 }
