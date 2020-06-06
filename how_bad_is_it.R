@@ -1,5 +1,6 @@
 library(COVID19)
 library(dplyr)
+library(ggplot2)
 
 how_bad_is_it <- function(startdate, state = "Illinois", county = "Champaign",
                           plotvar = "confirmed"){
@@ -8,15 +9,13 @@ how_bad_is_it <- function(startdate, state = "Illinois", county = "Champaign",
     filter(administrative_area_level_2 == state, administrative_area_level_3 == county)
   ndates <- nrow(covdat)
   
-  par(mfrow = c(length(plotvar), 1))
-  for(var in plotvar){
-    noncum <- covdat[[var]][2:ndates] - covdat[[var]][1:(ndates - 1)]
-    plot(covdat$date[-1], noncum, type = "l", xlab = "Date",
-         ylab = "Daily (noncumulative) count",
-         main = paste0(var, ", ", county, " county, ", state))
-  }
+  noncum <- covdat[[plotvar]][2:ndates] - covdat[[plotvar]][1:(ndates - 1)]
+  p <- ggplot(mapping = aes(x = covdat$date[-1], y = noncum)) +
+    geom_line() + geom_smooth() +
+    labs(x = "Date", y = "Daily (noncumulative) count") +
+    ggtitle(paste0(plotvar, ", ", county, " county, ", state))
   
-  return(covdat)
+  return(list(covdat, p))
 }
 
 how_bad_is_it(as.Date("2020-04-01"))
