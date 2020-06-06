@@ -18,4 +18,4 @@ how_bad_is_it <- function(startdate, state = "Illinois", county = "Champaign",
   return(list(covdat, p))
 }
 
-how_bad_is_it(as.Date("2020-04-01"))
+#how_bad_is_it(as.Date("2020-04-01"))
