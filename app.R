@@ -26,7 +26,8 @@ ui <- fluidPage(
     a("COVID-19 Data Hub", href = 'https://covid19datahub.io/'),
     "."),
     p("View source code on ", a("GitHub", href = "https://github.com/lvclark/covid19champaign"),
-      ". Feel free to modify and distribute with attribution."))
+      ". Feel free to modify and distribute with attribution.",
+      "The author is not responsible for the accuracy of the data, nor for any decisions made based on the presentation of data on this webpage."))
 )
 
 server <- function(input, output, session){
