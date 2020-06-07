@@ -9,6 +9,12 @@ how_bad_is_it <- function(startdate, state = "Illinois", county = "Champaign",
     filter(administrative_area_level_2 == state, administrative_area_level_3 == county)
   ndates <- nrow(covdat)
   if(ndates == 0) return(NULL)
+  # If there are no confirmed cases today, don't trust it
+  lasttwo <- tail(covdat[[plotvar]], 2)
+  if(lasttwo[1] == lasttwo[2]){
+    ndates <- ndates - 1
+    covdat <- covdat[1:(ndates),]
+  }
   
   noncum <- covdat[[plotvar]][2:ndates] - covdat[[plotvar]][1:(ndates - 1)]
   p <- ggplot(mapping = aes(x = covdat$date[-1], y = noncum)) +

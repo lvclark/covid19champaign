@@ -15,7 +15,7 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       dateInput("startdate", "Start date", "2020-04-01",
-                min = "2020-01-01", max = Sys.Date()),
+                min = "2020-01-01", max = Sys.Date() - 2),
       selectInput("state", "State", names(allcounties), "Illinois"),
       selectInput("county", "County", allcounties[["Illinois"]], "Champaign")
     ),
